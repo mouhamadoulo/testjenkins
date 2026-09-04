@@ -6,21 +6,18 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                echo 'Checkout source code'
                 checkout scm
             }
         }
 
         stage('Build') {
             steps {
-                echo 'Building application'
                 sh './mvnw clean compile'
             }
         }
 
         stage('Test') {
             steps {
-                echo 'Running tests'
                 sh './mvnw test'
             }
 
@@ -33,10 +30,12 @@ pipeline {
 
         stage('Package') {
             steps {
-                echo 'Packaging application'
                 sh './mvnw package -DskipTests'
 
-                archiveArtifacts artifacts: 'target/*.jar',fingerprint: true
+                archiveArtifacts(
+                    artifacts: 'target/*.jar',
+                    fingerprint: true
+                )
             }
         }
     }
@@ -44,11 +43,11 @@ pipeline {
     post {
 
         success {
-            echo 'Pipeline completed successfully!'
+            echo '✅ CI SUCCESS'
         }
 
         failure {
-            echo 'Pipeline failed!'
+            echo '❌ CI FAILURE'
         }
     }
 }
