@@ -35,6 +35,8 @@ pipeline {
             steps {
                 echo 'Packaging application'
                 sh './mvnw package -DskipTests'
+
+                archiveArtifacts artifacts: 'target/*.jar',fingerprint: true
             }
         }
     }
