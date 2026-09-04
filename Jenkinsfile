@@ -23,6 +23,12 @@ pipeline {
                 echo 'Running tests'
                 sh './mvnw test'
             }
+
+            post {
+                always {
+                    junit 'target/surefire-reports/*.xml'
+                }
+            }
         }
 
         stage('Package') {
